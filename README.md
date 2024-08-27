@@ -1,9 +1,3 @@
-# Northcoders News API
+In order to run the repo you must have an ".env.development" and ".env.test" file in the root folder.
 
-For instructions, please head over to [L2C NC News](https://l2c.northcoders.com/courses/be/nc-news).
-
-
-
---- 
-
-This portfolio project was created as part of a Digital Skills Bootcamp in Software Engineering provided by [Northcoders](https://northcoders.com/)
+Each file should contain "PGDATABASE=nc_news" and "PGDATABASE=nc_news_test", respectively.
