@@ -3,6 +3,7 @@ const request = require("supertest")
 const app = require ("../app")
 const data = require("../db/data/test-data/index")
 const seed = require("../db/seeds/seed")
+const endpoints = require("../endpoints.json")
 
 beforeEach(()=> seed(data))
 afterAll(()=> db.end())
@@ -27,8 +28,18 @@ describe("API tests", ()=>{
             .expect(404)
             .then((response) => {
             expect(response.body).toEqual({msg: "Not found"})
+        }) 
         })
-                
+    })
+    describe("GET api", ()=>{
+        test("responds with a 200 status code and gives list of endpoints", () => {
+            
+            return request(app)
+            .get("/api")
+            .expect(200)
+            .then((response) => {
+                expect(response.body).toEqual(endpoints)
+            })
         })
     })
 })
