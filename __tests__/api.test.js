@@ -33,13 +33,27 @@ describe("API tests", ()=>{
     })
     describe("GET api", ()=>{
         test("responds with a 200 status code and gives list of endpoints", () => {
-            
             return request(app)
             .get("/api")
             .expect(200)
             .then((response) => {
                 expect(response.body).toEqual(endpoints)
-            })
         })
     })
+    describe("GET /api/articles/:article_id", () => {
+        test("responds with 200 status code and gives requested article by ID", () => {
+            
+            return request(app)
+            .get("/api/articles/1")
+            .expect(200)
+            .then((response) => {
+                expect(response.body).toHaveProperty("article_id", 1)
+                expect(response.body).toHaveProperty("title", "Living in the shadow of a great man")
+                expect(response.body).toHaveProperty("votes", 100)
+            })
+        })
+    }
+
+    )
+})
 })
