@@ -3,7 +3,7 @@ const app = express()
 const dotenv = require("dotenv")
 const { getTopics } = require("./controllers/get-topics.controller")
 const getEndpoints = require("./controllers/get-endpoints.controller")
-const getArticles = require("./controllers/get-articles.controller")
+const { getArticles } = require("./controllers/get-articles.controller")
 
 app.get("/api/topics", getTopics)
 
