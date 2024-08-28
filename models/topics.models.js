@@ -6,3 +6,7 @@ exports.selectTopics = () => {
         return data
     })
 }
+
+exports.selectArticles = () => {
+    return db.query("SELECT * FROM articles")
+}
