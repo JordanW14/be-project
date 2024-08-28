@@ -87,5 +87,29 @@ describe("API tests", ()=>{
             })
         })
     })
-    describe("", () => {}) 
+    describe("GET /api/articles/:article_id/comments", () => {
+        test("200: Responds with an array of comments for the given article ID", () => {
+            return request(app)
+            .get("/api/articles/1/comments")
+            .expect(200)
+            .then((response) => {
+                response.body.forEach((comment) => {
+                    expect(comment).toHaveProperty('comment_id', expect.any(Number))
+                    expect(comment).toHaveProperty('votes', expect.any(Number))
+                    expect(comment).toHaveProperty('created_at', expect.any(String))
+                    expect(comment).toHaveProperty('author', expect.any(String))
+                    expect(comment).toHaveProperty('body', expect.any(String))
+                    expect(comment).toHaveProperty('article_id', expect.any(Number))
+                });
+            })
+        })
+        test("400: Responds with error when given invalid article_id endpoint", () => {
+            return request(app)
+            .get("/api/articles/banana/comments")
+            .expect(400)
+            .then((response) => {
+                expect({msg:"Article ID must be a number"})
+            })
+        })
+    })
 })
