@@ -52,6 +52,14 @@ describe("API tests", ()=>{
                 expect(response.body).toHaveProperty("votes", 100)
             })
         })
+        test("responds with 400 status code when given invalid article_id endpoint", () => {
+            return request(app)
+            .get("/api/articles/banana")
+            .expect(400)
+            .then((response) => {
+                expect({msg:"Article ID must be a number"})
+            })
+        })
     }
 
     )
