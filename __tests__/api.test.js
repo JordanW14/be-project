@@ -4,7 +4,7 @@ const app = require ("../app")
 const data = require("../db/data/test-data/index")
 const seed = require("../db/seeds/seed")
 const endpoints = require("../endpoints.json")
-const { string } = require("pg-format")
+const postComment = require("../controllers/post-comment.controller")
 
 beforeEach(()=> seed(data))
 afterAll(()=> db.end())
@@ -110,6 +110,19 @@ describe("API tests", ()=>{
             .then((response) => {
                 expect({msg:"Article ID must be a number"})
             })
+        })
+    })
+    describe("POST /api/articles/:article_id/comments", () => {
+        test("201: Post a comment to article", () => {
+            return request(app)
+                .post("/api/articles/1/comments")
+                .send({ username: 'rogersop', body: 'Test comment' })
+                .expect(201)
+                .then((response) => {
+                    expect(response.body.comment).toHaveProperty('body', 'Test comment')
+                    expect(response.body.comment).toHaveProperty('author', 'rogersop')
+                    expect(response.body.comment).toHaveProperty('article_id', 1)
+                })
         })
     })
 })
