@@ -7,6 +7,7 @@ const { getArticles } = require("./controllers/get-articles.controller")
 const { getAllArticles } = require("./controllers/get-all-articles.controller")
 const { getArticleComments } = require("./controllers/get-article-comments.controller")
 const { postComment } = require("./controllers/post-comment.controller")
+const { patchVote } = require("./controllers/patch-vote.controller")
 
 app.use(express.json())
 
@@ -22,6 +23,8 @@ app.get("/api/articles/:article_id/comments", getArticleComments)
 
 app.post("/api/articles/:article_id/comments", postComment)
 
+app.patch("/api/articles/:article_id", patchVote)
+
 app.all("/*", (req, res) => {
     res.status(404).send({msg: "Not found"})
 })
@@ -30,6 +33,7 @@ app.use((err, req, res, next) => {
     if (err.code === "22P02"){
     res.status(400).send({ msg: "Article ID must be a number"})
     }
+    res.status(500).send({msg: "Server error"})
   });
 
 module.exports = app

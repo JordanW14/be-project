@@ -125,4 +125,15 @@ describe("API tests", ()=>{
                 })
         })
     })
+    describe("PATCH /api/articles/:article_id", () => {
+        test("200: Updates an article", () => {
+            return request(app)
+            .patch("/api/articles/1")
+            .send({ inc_votes: 1 })
+            .expect(200)
+            .then((response) => {
+                expect(response.body.votes).toBe(101)
+            })
+        })
+    })
 })
