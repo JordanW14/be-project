@@ -34,3 +34,10 @@ exports.insertComment = (username, body, article_id) => {
         return data.rows[0]
     }) 
 }
+
+exports.updateVote = (article_id, inc_votes) => {
+    return db.query("UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *", [inc_votes, article_id])
+    .then((data) => {
+        return data.rows[0]
+    })
+}
