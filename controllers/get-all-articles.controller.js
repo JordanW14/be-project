@@ -1,13 +1,13 @@
-const { selectAllArticles } = require("../models/topics.models")
+const { selectAllArticles } = require("../models/models")
 
 const getAllArticles = (req, res, next) => {
     selectAllArticles()
     .then((articles) => {
     res.status(200).send(articles)
     })
-    .catch((err)=>{
+    .catch((err) => {
         next(err)
     })
 }
 
-module.exports = { getAllArticles }
+module.exports = getAllArticles

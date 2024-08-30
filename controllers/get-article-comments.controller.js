@@ -1,8 +1,9 @@
-const { selectArticleComments } = require("../models/topics.models")
+const { selectArticleComments } = require("../models/models")
 
-const getArticleComments = (req,res, next)=>{
+const getArticleComments = (req, res, next) => {
     const {article_id} = req.params
-    selectArticleComments(article_id).then((comments) => {
+    selectArticleComments(article_id)
+    .then((comments) => {
     res.status(200).send(comments)
     })
     .catch((err)=>{
@@ -10,4 +11,4 @@ const getArticleComments = (req,res, next)=>{
     })
 }
 
-module.exports = { getArticleComments }
+module.exports = getArticleComments

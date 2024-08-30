@@ -1,4 +1,4 @@
-const { insertComment } = require("../models/topics.models")
+const { insertComment } = require("../models/models")
 
 const postComment = (req, res, next) => {
   const { username, body } = req.body
@@ -12,4 +12,4 @@ const postComment = (req, res, next) => {
       next(err)
   })  
 }
-module.exports = { postComment }
+module.exports = postComment

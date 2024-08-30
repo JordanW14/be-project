@@ -4,24 +4,24 @@ const app = require ("../app")
 const data = require("../db/data/test-data/index")
 const seed = require("../db/seeds/seed")
 const endpoints = require("../endpoints.json")
-const postComment = require("../controllers/post-comment.controller")
 
 beforeEach(()=> seed(data))
 afterAll(()=> db.end())
 
 
-describe("API tests", ()=>{
-    describe("GET api/topics", ()=>{
+describe("API tests", () => {
+    describe("GET /api/topics", () => {
         test("200: Responds with list of topics", () => {
             return request(app)
             .get("/api/topics")
             .expect(200)
             .then(({body}) => {
-                    body.rows.forEach((topic) => {
+                expect(Array.isArray(body)).toBe(true)
+                body.forEach((topic) => {
                     expect(topic).toHaveProperty("slug")
                     expect(topic).toHaveProperty("description")
-                    })
                 })
+            })
         })
         test("404: Responds with error if path not found", () => {
             return request(app)
@@ -41,7 +41,15 @@ describe("API tests", ()=>{
                 expect(response.body).toEqual(endpoints)
             })
         })
-    })    
+        test("404: Responds with error if path not found", () => {
+            return request(app)
+            .get("/abi")
+            .expect(404)
+            .then((response) => {
+            expect(response.body).toEqual({msg: "Not found"})
+            }) 
+        })
+    })
     describe("GET /api/articles/:article_id", () => {
         test("200: Responds with requested article by ID", () => {
             
@@ -59,7 +67,7 @@ describe("API tests", ()=>{
             .get("/api/articles/banana")
             .expect(400)
             .then((response) => {
-                expect({msg:"Article ID must be a number"})
+                expect({msg:"Bad request"})
             })
         })
     })
@@ -76,7 +84,7 @@ describe("API tests", ()=>{
                 })
             })
         })
-        test("200: Check there isn't a body property", ()=>{
+        test("200: Check there isn't a body property", () => {
             return request(app)
             .get("/api/articles")
             .expect(200)
@@ -108,7 +116,7 @@ describe("API tests", ()=>{
             .get("/api/articles/banana/comments")
             .expect(400)
             .then((response) => {
-                expect({msg:"Article ID must be a number"})
+                expect({msg:"Bad request"})
             })
         })
     })
@@ -135,5 +143,25 @@ describe("API tests", ()=>{
                 expect(response.body.votes).toBe(101)
             })
         })
+    })
+    describe("DELETE /api/comments/:comment_id", () => {
+        test("204: Deletes a comment by the comment ID", () => {
+            return request(app)
+            .delete("/api/comments/1")
+            .expect(204)
+        })
+        test("404: Check the comment was successfully deleted", () => {
+            return request(app)
+            .get(`/api/comments/1`)
+            .expect(404)
+        })
+        test("404: Returns correct error if there was no comment to delete", () => {
+            return request(app)
+            .delete("/api/comments/150")
+            .expect(404)
+            .then(response => {
+                expect({ msg: "No comment to delete"})
+            })
+         })
     })
 })
