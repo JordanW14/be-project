@@ -8,7 +8,8 @@ const { getTopics,
   getArticleComments,
   postComment,
   patchVote,
-  deleteComment,} = require("./controllers")
+  deleteComment,
+  getUsers,} = require("./controllers")
 
 app.use(express.json())
 
@@ -27,6 +28,8 @@ app.post("/api/articles/:article_id/comments", postComment)
 app.patch("/api/articles/:article_id", patchVote)
 
 app.delete("/api/comments/:comment_id", deleteComment)
+
+app.get("/api/users", getUsers)
 
 app.all("/*", (req, res) => {
     res.status(404).send({msg: "Not found"})
