@@ -17,6 +17,7 @@ describe("API tests", () => {
             .expect(200)
             .then(({body}) => {
                 expect(Array.isArray(body)).toBe(true)
+                expect(body.length).toBeGreaterThan(0)
                 body.forEach((topic) => {
                     expect(topic).toHaveProperty("slug")
                     expect(topic).toHaveProperty("description")
@@ -163,5 +164,29 @@ describe("API tests", () => {
                 expect({ msg: "No comment to delete"})
             })
          })
+    })
+    describe("GET /api/users", () => {
+        test("200: Return an array of all users", () => {
+            return request(app)
+            .get("/api/users")
+            .expect(200)
+            .then(({body}) => {
+                expect(Array.isArray(body)).toBe(true)
+                expect(body.length).toBeGreaterThan(0)
+                body.forEach((user) => {
+                    expect(user).toHaveProperty("username")
+                    expect(user).toHaveProperty("name")
+                    expect(user).toHaveProperty("avatar_url")
+                })
+            })
+        })
+        test("404: Responds with error if path not found", () => {
+            return request(app)
+            .get("/api/notHere")
+            .expect(404)
+            .then((response) => {
+            expect(response.body).toEqual({msg: "Not found"})
+            }) 
+        })
     })
 })

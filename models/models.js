@@ -55,3 +55,10 @@ exports.deleteCommentById = (comment_id) => {
             }
         })
 }
+
+exports.selectUsers = () => {
+    return db.query("SELECT username, name, avatar_url FROM users")
+        .then(data => {
+            return data.rows
+        })
+}

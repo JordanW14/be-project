@@ -6,6 +6,7 @@ const postComment = require("./post-comment.controller.js")
 const patchVote = require("./patch-vote.controller.js")
 const deleteComment = require("./delete-comment.controller.js")
 const getTopics = require("./get-topics.controller.js")
+const getUsers = require("./get-users.controller.js")
 
 module.exports = {
     getTopics,
@@ -16,4 +17,5 @@ module.exports = {
     postComment,
     patchVote,
     deleteComment,
+    getUsers,
 }
