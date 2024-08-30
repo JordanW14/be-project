@@ -3,7 +3,7 @@ const db = require("../db/connection")
 exports.selectTopics = () => {
     return db.query("SELECT * FROM topics")
     .then((data) => {
-        return data
+        return data.rows
     })
 }
 
@@ -40,4 +40,18 @@ exports.updateVote = (article_id, inc_votes) => {
     .then((data) => {
         return data.rows[0]
     })
+}
+
+exports.deleteCommentById = (comment_id) => {
+    return db.query("SELECT * FROM comments WHERE comment_id = $1", [comment_id])
+    .then((result) => {
+        if (result.rows.length === 0) {
+            return Promise.reject(new Error('No comment to delete'))
+        } else {  
+            return db.query("DELETE FROM comments WHERE comment_id = $1", [comment_id])
+            .then((result) => {
+                return result
+                })
+            }
+        })
 }

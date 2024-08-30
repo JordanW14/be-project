@@ -1,4 +1,4 @@
-const { updateVote } = require("../models/topics.models")
+const { updateVote } = require("../models/models")
 
 const patchVote = (req, res, next) => {
     const { article_id } = req.params
@@ -13,4 +13,4 @@ const patchVote = (req, res, next) => {
     })
 }
 
-module.exports = { patchVote }
+module.exports = patchVote

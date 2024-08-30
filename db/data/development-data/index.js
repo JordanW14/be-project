@@ -1,11 +1,4 @@
-const articleData = require('./articles.js');
-const commentData = require('./comments.js');
-const topicData = require('./topics.js');
-const userData = require('./users.js');
-
-module.exports = {
-    topicData,
-    articleData,
-    userData,
-    commentData
-};
+exports.articleData = require('./articles.js');
+exports.commentData = require('./comments.js');
+exports.topicData = require('./topics.js');
+exports.userData = require('./users.js');
