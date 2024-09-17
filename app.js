@@ -1,25 +1,27 @@
 const express = require("express")
 const app = express()
 const dotenv = require("dotenv")
+const cors = require ('cors')
 const { getTopics,
   getEndpoints,
-  getArticles,
   getAllArticles,
   getArticleComments,
   postComment,
   patchVote,
   deleteComment,
-  getUsers,} = require("./controllers")
+  getUsers,
+  getSpecificArticles,} = require("./controllers")
 
 app.use(express.json())
+app.use(cors())
+
+app.get("/api/articles", getAllArticles)
 
 app.get("/api/topics", getTopics)
 
 app.get("/api", getEndpoints)
 
-app.get("/api/articles/:article_id", getArticles)
-
-app.get("/api/articles", getAllArticles)
+app.get("/api/articles/:article_id", getSpecificArticles)
 
 app.get("/api/articles/:article_id/comments", getArticleComments)
 
@@ -31,8 +33,14 @@ app.delete("/api/comments/:comment_id", deleteComment)
 
 app.get("/api/users", getUsers)
 
+
 app.all("/*", (req, res) => {
     res.status(404).send({msg: "Not found"})
+})
+
+app.use((err, req, res, next) => {
+  (err.message === 'Invalid sort' || err.message === 'Invalid order')
+  return res.status(400).send({ msg: err.message });
 })
 
 app.use((err, req, res, next) => {
@@ -44,8 +52,8 @@ app.use((err, req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-if (err.message === 'No comment to delete'){
-  res.status(404).send({ msg: "No comment to delete"})
+  if (err.message === 'No comment to delete'){
+    res.status(400).send({ msg: "No comment to delete"})
   }
 })
     
