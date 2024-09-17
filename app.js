@@ -10,7 +10,8 @@ const { getTopics,
   patchVote,
   deleteComment,
   getUsers,
-  getSpecificArticles,} = require("./controllers")
+  //getSpecificArticles,
+} = require("./controllers")
 
 app.use(express.json())
 app.use(cors())
@@ -21,7 +22,7 @@ app.get("/api/topics", getTopics)
 
 app.get("/api", getEndpoints)
 
-app.get("/api/articles/:article_id", getSpecificArticles)
+//app.get("/api/articles/:article_id", getSpecificArticles)
 
 app.get("/api/articles/:article_id/comments", getArticleComments)
 
